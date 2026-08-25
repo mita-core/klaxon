@@ -278,6 +278,7 @@ ul{margin:0;padding:0;list-style:none}
 .sub__bag{aspect-ratio:64/100;display:flex;align-items:flex-end;justify-content:center}
 .sub__bag .bagimg{width:auto;height:100%;max-width:100%;object-fit:contain;object-position:center bottom}
 .pdp__skus{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;justify-content:center;transform:translateX(12px)}
+@media(min-width:1000px){#pdpName{min-height:2em}}
 .sku{min-height:44px;min-width:44px;padding:0 12px;border-radius:999px;border:1.5px solid var(--rule);
   background:transparent;cursor:pointer;font-family:var(--mono);font-size:11px;
   display:inline-flex;align-items:center;transition:background-color .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease)}
@@ -952,6 +953,18 @@ var pdp={id:"01",size:"12oz",grind:"Whole bean",qty:1};
 
 function selectSku(id){pdp.id=id;renderPdp();}
 
+/* Keep the SKU selector on the Quantity line. The name reserves two lines,
+   so this position stays unchanged while switching between products. */
+function alignSkus(){
+  var skus=byId("pdpSkus"), qty=el(".pdp__info .qty");
+  if(!skus||!qty)return;
+  skus.style.marginTop="";
+  if(window.innerWidth<1000)return;
+  var a=skus.getBoundingClientRect(), b=qty.getBoundingClientRect();
+  var d=(b.top+b.height/2)-(a.top+a.height/2);
+  skus.style.marginTop=Math.round(20+d)+"px";
+}
+
 function roastDate(){
   var d=new Date(Date.now()-2*864e5);
   var m=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"][d.getMonth()];
@@ -1326,6 +1339,10 @@ renderCart();
 photoInto(byId("phHero"),"hero");
 photoInto(byId("phStrip"),"strip");
 photoInto(byId("phAbout"),"about");
+alignSkus();
+window.addEventListener("resize",alignSkus);
+window.addEventListener("load",alignSkus);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(alignSkus);
 })();
 </script>
 </body>
