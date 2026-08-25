@@ -229,6 +229,7 @@ ul{margin:0;padding:0;list-style:none}
    ground line so the captions below stay aligned across the grid */
 .stage{aspect-ratio:64/100;display:flex;align-items:flex-end;justify-content:center}
 .stage .bagimg{width:auto;height:100%;max-width:100%;object-fit:contain;object-position:center bottom}
+.stage .bagimg--blonde,.pdp__bag .bagimg--blonde,.sub__bag .bagimg--blonde{height:95.8%}
 .bagimg--big{width:112%;margin-left:-6%}
 /* the packshots are cut out flat, so the ground contact is drawn here */
 .stage,.pdp__bag,.sub__bag,.hero__bagwrap{position:relative}
@@ -860,7 +861,7 @@ var BAGIMG={
 function bag(p,opt){
   opt=opt||{};
   var size=opt.size||"12oz", big=size==="2lb", mini=!!opt.mini;
-  return '<img class="bagimg'+(big?' bagimg--big':'')+'" src="'+BAGIMG[p.id]+'" '+
+  return '<img class="bagimg'+(p.id==="02"?' bagimg--blonde':'')+(big?' bagimg--big':'')+'" src="'+BAGIMG[p.id]+'" '+
     (mini?'loading="lazy" ':'')+'alt="'+
     esc(up(p.name)+' — '+sizeLabel(size,true)+' bag, '+p.origin+', '+p.process.toLowerCase())+'">';
 }
